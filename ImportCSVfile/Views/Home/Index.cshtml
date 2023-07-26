@@ -1,0 +1,56 @@
+﻿@model List<Product>
+
+<h2>Products List</h2>
+
+@if (Model != null && Model.Any())
+{
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Product ID</th>
+                <th>Product Name</th>
+                <th>Quantity</th>
+                <th>Price per Unit</th>
+                <th>Total Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in Model)
+            {
+                <tr>
+                    <td>@product.Product_ID</td>
+                    <td>@product.Product_Name</td>
+                    <td>@product.Quantity</td>
+                    <td>@product.Price</td>
+                    <td>@(product.Price * product.Quantity)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <br />
+
+    <h4>Summary</h4><br/>
+    <p><strong>Total Number of Products:</strong> @Model.Count</p>
+    <p><strong>Total Price of All Products:</strong> @Model.Sum(p => p.Price * p.Quantity)</p>
+    <br/>
+}
+else
+{
+    <p>No products imported.</p>
+}
+
+<form asp-action="ImportCSV" method="post" enctype="multipart/form-data">
+    <input type="file" name="file" id="file" />
+    <input type="submit" value="Upload" />
+</form>
+
+@*@{
+    ViewBag.Title = "Product List";
+}
+
+<h2>Product List</h2>
+
+<!-- Add a link or button to trigger PDF generation -->
+@Html.ActionLink("Generate PDF", "GeneratePDF", "Home", null, new { @class = "btn btn-primary" })*@
+
